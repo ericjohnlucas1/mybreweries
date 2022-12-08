@@ -1,0 +1,52 @@
+version: "3"
+services:
+  mongo1:
+    hostname: mongo1
+    container_name: mongo1
+    image: mongo
+    expose:
+    - 27017
+    ports:
+      - 30001:27017
+    restart: always
+    networks:
+    - brewery
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo2:
+    hostname: mongo2
+    container_name: mongo2
+    image: mongo
+    expose:
+    - 27017
+    ports:
+      - 30002:27017
+    restart: always
+    networks:
+    - brewery
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo3:
+    hostname: mongo3
+    container_name: mongo3
+    image: mongo
+    expose:
+    - 27017
+    ports:
+      - 30003:27017
+    restart: always
+    networks:
+    - brewery
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  breweriesapi:
+    image: breweryapi
+    build: ./api
+    ports:
+    - "5000:5000"
+    networks:
+    - brewery
+    depends_on:
+      - "mongo1"
+      - "mongo2"
+      - "mongo3"
+networks:
+  brewery:
+    driver: overlay
