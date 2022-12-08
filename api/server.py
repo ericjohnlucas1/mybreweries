@@ -18,14 +18,15 @@ from flask import Flask, request, jsonify, current_app, make_response, send_file
 from bson import json_util
 import json
 from flask import Flask
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 
 MONGO_DB_CONN = "mongo1:27017,mongo2:27017,mongo3:27017"
 
 app = Flask(__name__)
-CORS(app)
-#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
+#CORS(app)
+CORS(app, headers='Content-Type')
 
 @app.route('/breweries/<_id>', methods=['DELETE', 'OPTIONS'])
 def delete_brewery(_id):
@@ -40,7 +41,8 @@ def delete_brewery(_id):
         return 'Unhandled error', 500, {'Content-Type':'text/plain'}
 
 
-@app.route('/breweries/', methods=['POST', 'OPTIONS'])
+@app.route('/breweries/', methods=['OPTIONS','POST'])
+@cross_origin()
 def create_brewery():
     try:
         db_conn = mongo.MongoClient(MONGO_DB_CONN)

@@ -36,17 +36,6 @@ services:
     networks:
     - brewery
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
-  breweriesapi:
-    image: breweryapi
-    build: ./api
-    ports:
-    - "5000:5000"
-    networks:
-    - brewery
-    depends_on:
-      - "mongo1"
-      - "mongo2"
-      - "mongo3"
 networks:
   brewery:
     driver: overlay
