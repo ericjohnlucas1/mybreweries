@@ -1,6 +1,6 @@
 # My breweries project
 
-This project is a web application for keeping track of your favorite breweries!
+This project is a web application for keeping track of your favorite breweries! This app uses data from https://www.openbrewerydb.org/
 
 ## Local Deployment
 
