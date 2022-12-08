@@ -48,7 +48,6 @@ def create_brewery():
         db_conn = mongo.MongoClient(MONGO_DB_CONN)
         db = db_conn["main"]
         collection = db["breweries"]
-        print(request.get_data())
         data = request.json
         resp = collection.insert_one(data)
         return jsonify(json.loads(json_util.dumps({"_id": resp.inserted_id}))), 200, {'ContentType':'application/json'}
